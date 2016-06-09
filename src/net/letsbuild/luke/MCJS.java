@@ -3,9 +3,9 @@ package net.letsbuild.luke;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.nio.file.Path;
 
-public class SpigotPlugin extends JavaPlugin {
+public class MCJS extends JavaPlugin {
 	
-	// Fired when SpigotPlugin is first enabled
+	// Fired when MCJS is first enabled
 	@Override
 	public void onEnable() {
 
