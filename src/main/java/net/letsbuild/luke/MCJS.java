@@ -87,8 +87,6 @@ public class MCJS extends JavaPlugin {
 
 	public void disableEngine() {
 
-		jsEngine
-
 		try {
 			jsEngine.interrupt();
 			jsEngine.stop();
