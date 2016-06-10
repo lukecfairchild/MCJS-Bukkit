@@ -13,22 +13,23 @@ public class MCJS extends JavaPlugin {
 		 * Initialize Javascript Engine.
 		 */
 		javax.script.ScriptEngineManager scriptManager = new javax.script.ScriptEngineManager();
-		javax.script.ScriptEngine        jsEngine      = scriptManager.getEngineByName( 'javascript' );
+		javax.script.ScriptEngine        jsEngine      = scriptManager.getEngineByName( "javascript" );
 
 
 		/**
 		 * Figure out the current Directory.
 		 */
 
-		String serverDir  = java.lang.System.getProperty( 'user.dir' );
-		String pluginDir  = Paths.get( serverDir, 'MCJS' ).getPath();
-		String jsFilePath = Paths.get( pluginDir, 'lib', 'global.js' ).getPath();
+		String serverDir  = java.lang.System.getProperty( "user.dir" );
+		String pluginDir  = Paths.get( serverDir, "MCJS" ).toString();
+		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
 
 
 		/**
 		 * Read global.js File.
 		 */
 
+		try
 		File file                  = new File( jsFilePath );
 		FileInputStream fileStream = new FileInputStream( file );
 		byte[] data                = new byte[ ( int ) file.length() ];
@@ -36,15 +37,15 @@ public class MCJS extends JavaPlugin {
 		fileStream.read( data );
 		fileStream.close();
 
-		String javascript = new String( data, 'UTF-8' );
+		String javascript = new String( data, "UTF-8" );
 
 
 		/**
 		 * Pass required variables to Javascript Engine.
 		 */
 
-		jsEngine.put( 'PATH', pluginDir );
-		jsEngine.eval( 'var global = {};' );
+		jsEngine.put( "PATH", pluginDir );
+		jsEngine.eval( "var global = {};" );
 		jsEngine.eval( javascript );
 	}
 
