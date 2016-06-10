@@ -16,23 +16,28 @@ import javax.script.ScriptException;
 
 public class MCJS extends JavaPlugin {
 	
-	// Fired when MCJS is first enabled
+	public static Plugin plugin;
+    public static final int id = 0;
+    
+	// Fired when SpigotPlugin is first enabled
 	@Override
 	public void onEnable() {
+		plugin = this;
 
 		/**
 		 * Initialize Javascript Engine.
 		 */
-		javax.script.ScriptEngineManager scriptManager = new javax.script.ScriptEngineManager();
-		javax.script.ScriptEngine        jsEngine      = scriptManager.getEngineByName( "javascript" );
+		ScriptEngineManager scriptManager = new ScriptEngineManager();
+		ScriptEngine        jsEngine      = scriptManager.getEngineByName( "javascript" );
 
 
 		/**
 		 * Figure out the current Directory.
 		 */
 
-		String serverDir  = java.lang.System.getProperty( "user.dir" );
-		String pluginDir  = Paths.get( serverDir, "plugins", "MCJS" ).toString();
+		String serverDir  = System.getProperty( "user.dir" );
+		String pluginsDir = Paths.get( serverDir, "plugins" ).toString();
+		String pluginDir  = Paths.get( pluginsDir, "MCJS" ).toString();
 		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
 
 
@@ -40,26 +45,48 @@ public class MCJS extends JavaPlugin {
 		 * Read global.js File.
 		 */
 
-		File file                  = new File( jsFilePath );
-		FileInputStream fileStream = new FileInputStream( file );
-		byte[] data                = new byte[ ( int ) file.length() ];
+		File file   = new File( jsFilePath );
+		byte[] data = new byte[ ( int ) file.length() ];
+		
+		FileInputStream fileStream;
 
-		fileStream.read( data );
-		fileStream.close();
+		try {
+			fileStream = new FileInputStream( file );
 
-		String javascript = new String( data, "UTF-8" );
+			fileStream.read( data );
+			fileStream.close();
+
+		} catch ( FileNotFoundException e ) {
+			e.printStackTrace();
+
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+
+		try {
+			String javascript = new String( data, "UTF-8" );
 
 
-		/**
-		 * Pass required variables to Javascript Engine.
-		 */
+			/**
+			 * Pass required variables to Javascript Engine.
+			 */
 
-		jsEngine.put( "PATH", pluginDir );
-		jsEngine.eval( "var global = {};" );
-		jsEngine.eval( javascript );
+			jsEngine.put( "PATH", pluginDir );
+			jsEngine.eval( "var global = {};" );
+			jsEngine.eval( javascript );
+			
+		} catch ( UnsupportedEncodingException e ) {
+			e.printStackTrace();
+
+		} catch ( ScriptException e ) {
+			e.printStackTrace();
+		}
 	}
+
 
 	// Fired when SpigotPlugin is disabled
 	@Override
-	public void onDisable() {}
+	public void onDisable() {
+		
+	}
 }
