@@ -20,8 +20,6 @@ public class MCJS extends JavaPlugin {
 	public static ScriptEngine jsEngine;
     public static final int id = 0;
     
-	// Fired when SpigotPlugin is first enabled
-	@Override
 	public void loadEngine() {
 		plugin = this;
 
@@ -87,15 +85,16 @@ public class MCJS extends JavaPlugin {
 
 	public void disableEngine() {
 
-		try {
+	/*	try {
 			jsEngine.interrupt();
 			jsEngine.stop();
 
 		} catch ( InterruptedException e ) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
+	@Override
 	public void onEnable() {
 
 		loadEngine();
