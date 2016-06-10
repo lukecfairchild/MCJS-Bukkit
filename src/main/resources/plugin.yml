@@ -1,4 +1,4 @@
 name: MCJS
-main: src.net.letsbuild.luke.MCJS
+main: net.letsbuild.luke.MCJS
 version: 1.0
 description: MCJS
