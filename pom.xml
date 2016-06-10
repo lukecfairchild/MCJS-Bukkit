@@ -19,10 +19,6 @@
 			<id>maven-central</id>
 			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
-		<repository>
-			<id>Plugin Metrics</id>
-			<url>http://repo.mcstats.org/content/repositories/public</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -30,12 +26,6 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.9.4-R0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mcstats.MOD</groupId>
-			<artifactId>metrics</artifactId>
-			<version>R7</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
