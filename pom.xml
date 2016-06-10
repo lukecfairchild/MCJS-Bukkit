@@ -4,14 +4,20 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.letsbuild.luke.MCJS</groupId>
+	<groupId>net.letsbuild.luke</groupId>
 	<artifactId>MCJS</artifactId>
 	<version>1.0.0</version>
+	<name>MCJS</name>
+	<description>MCJS is a javascript wrapper of the bukkit/spigot API</description>
 
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>maven-central</id>
+			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
 	</repositories>
 
@@ -19,12 +25,12 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.8-R0.1-SNAPSHOT</version>
+			<version>1.9.4-R0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${basedir}/src/com</sourceDirectory>
+		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
 		<finalName>MCJS</finalName>
 		<plugins>
 			<plugin>

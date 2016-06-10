@@ -21,7 +21,7 @@ public class MCJS extends JavaPlugin {
 		 */
 
 		String serverDir  = java.lang.System.getProperty( "user.dir" );
-		String pluginDir  = Paths.get( serverDir, "MCJS" ).toString();
+		String pluginDir  = Paths.get( serverDir, "plugins", "MCJS" ).toString();
 		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
 
 
