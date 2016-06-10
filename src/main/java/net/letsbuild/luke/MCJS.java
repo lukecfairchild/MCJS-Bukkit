@@ -85,13 +85,9 @@ public class MCJS extends JavaPlugin {
 
 	public void disableEngine() {
 
-	/*	try {
+		if ( jsEngine != null ) {
 			jsEngine.interrupt();
-			jsEngine.stop();
-
-		} catch ( InterruptedException e ) {
-			e.printStackTrace();
-		}*/
+		}
 	}
 
 	@Override
