@@ -29,7 +29,6 @@ public class MCJS extends JavaPlugin {
 		 * Read global.js File.
 		 */
 
-		try
 		File file                  = new File( jsFilePath );
 		FileInputStream fileStream = new FileInputStream( file );
 		byte[] data                = new byte[ ( int ) file.length() ];
