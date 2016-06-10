@@ -17,18 +17,20 @@ import javax.script.ScriptException;
 public class MCJS extends JavaPlugin {
 	
 	public static Plugin plugin;
+	public static ScriptEngine jsEngine;
     public static final int id = 0;
     
 	// Fired when SpigotPlugin is first enabled
 	@Override
-	public void onEnable() {
+	public void loadEngine() {
 		plugin = this;
 
 		/**
 		 * Initialize Javascript Engine.
 		 */
 		ScriptEngineManager scriptManager = new ScriptEngineManager();
-		ScriptEngine        jsEngine      = scriptManager.getEngineByName( "javascript" );
+
+		jsEngine = scriptManager.getEngineByName( "javascript" );
 
 
 		/**
@@ -83,10 +85,26 @@ public class MCJS extends JavaPlugin {
 		}
 	}
 
+	public void disableEngine() {
+
+		jsEngine
+
+		try {
+			jsEngine.interrupt();
+			jsEngine.stop();
+
+		} catch ( InterruptedException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	public void onEnable() {
+
+		loadEngine();
+	}
+
 
 	// Fired when SpigotPlugin is disabled
 	@Override
-	public void onDisable() {
-		
-	}
+	public void onDisable() {}
 }
