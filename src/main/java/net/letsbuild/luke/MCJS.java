@@ -21,6 +21,53 @@ public class MCJS extends JavaPlugin {
 	private static ScriptEngine        jsEngine;
 	private static ScriptEngineManager scriptManager;
 
+	private static String pluginDir;
+	private static String jsFilePath;
+
+	private String getPluginDir () {
+
+		if ( pluginDir == null ) {
+			pluginDir = Paths.get( Paths.get( System.getProperty( "user.dir" ), "plugins" ).toString(), "MCJS" ).toString();
+		}
+
+		return pluginDir;
+	}
+
+	private String getJSFile () {
+
+		if ( jsFilePath == null ) {
+			jsFilePath = Paths.get( getPluginDir(), "lib", "global.js" ).toString();
+		}
+
+		String javascript;
+
+		File file   = new File( jsFilePath );
+		byte[] data = new byte[ ( int ) file.length() ];
+		
+		try {
+			FileInputStream fileStream = new FileInputStream( file );
+
+			fileStream.read( data );
+			fileStream.close();
+
+		} catch ( FileNotFoundException e ) {
+			e.printStackTrace();
+
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+
+		try {
+			javascript = String( data, "UTF-8" );
+
+		} catch ( UnsupportedEncodingException e ) {
+			e.printStackTrace();
+		}
+
+		return javascript;
+	}
+
+
 	@Override
 	public void onEnable () {
 
@@ -39,52 +86,14 @@ public class MCJS extends JavaPlugin {
 			jsEngine = scriptManager.getEngineByName( "javascript" );
 		}
 
-
-		/**
-		 * Figure out Directories.
-		 */
-
-		String serverDir  = System.getProperty( "user.dir" );
-		String pluginsDir = Paths.get( serverDir, "plugins" ).toString();
-		String pluginDir  = Paths.get( pluginsDir, "MCJS" ).toString();
-		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
-
-
-		/**
-		 * Read global.js File.
-		 */
-
-		File file   = new File( jsFilePath );
-		byte[] data = new byte[ ( int ) file.length() ];
-		
-		FileInputStream fileStream;
-
 		try {
-			fileStream = new FileInputStream( file );
-
-			fileStream.read( data );
-			fileStream.close();
-
-		} catch ( FileNotFoundException e ) {
-			e.printStackTrace();
-
-		} catch ( IOException e ) {
-			e.printStackTrace();
-		}
-
-		try {
-			String javascript = new String( data, "UTF-8" );
-
-			jsEngine.put( "PATH", pluginDir );
+			jsEngine.put( "PATH", getPluginDir() );
 			jsEngine.eval( "var global     = {};" );
 			jsEngine.eval( "var __instance = {};" );
 
 			jsEngine.eval( "__instance.cleanup = [];" );
-			jsEngine.eval( "( function () { \n" + javascript + "\n} ) ();" );
+			jsEngine.eval( "( function () { \n" + getJSFile() + "\n} ) ();" );
 			
-		} catch ( UnsupportedEncodingException e ) {
-			e.printStackTrace();
-
 		} catch ( ScriptException e ) {
 			e.printStackTrace();
 		}
