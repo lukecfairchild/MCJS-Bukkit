@@ -39,7 +39,7 @@ public class MCJS extends JavaPlugin {
 			jsFilePath = Paths.get( getPluginDir(), "lib", "global.js" ).toString();
 		}
 
-		String javascript;
+		String javascript = "";
 
 		File file   = new File( jsFilePath );
 		byte[] data = new byte[ ( int ) file.length() ];
