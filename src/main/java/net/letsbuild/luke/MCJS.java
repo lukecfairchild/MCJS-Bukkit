@@ -18,9 +18,7 @@ public class MCJS extends JavaPlugin {
 
 	public static Plugin              plugin;
 
-	private static List<Runnable>      cleanUpFunctions = new ArrayList<Runnable>();
 	private static ScriptEngine        jsEngine;
-	private static ScriptEngineManager scriptManager;
 	private static ScriptEngineManager scriptManager;
 
 	@Override
