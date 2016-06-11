@@ -49,12 +49,6 @@ public class MCJS extends JavaPlugin {
 		String pluginDir  = Paths.get( pluginsDir, "MCJS" ).toString();
 		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
 
-		jsEngine.put( "PATH", pluginDir );
-		jsEngine.eval( "var global     = {};" );
-		jsEngine.eval( "var __instance = {};" );
-
-		jsEngine.eval( "__instance.cleanup = [];" );
-
 
 		/**
 		 * Read global.js File.
@@ -80,7 +74,12 @@ public class MCJS extends JavaPlugin {
 
 		try {
 			String javascript = new String( data, "UTF-8" );
-			
+
+			jsEngine.put( "PATH", pluginDir );
+			jsEngine.eval( "var global     = {};" );
+			jsEngine.eval( "var __instance = {};" );
+
+			jsEngine.eval( "__instance.cleanup = [];" );
 			jsEngine.eval( "( function () { \n" + javascript + "\n} ) ();" );
 			
 		} catch ( UnsupportedEncodingException e ) {
@@ -95,14 +94,19 @@ public class MCJS extends JavaPlugin {
 	@Override
 	public void onDisable () {
 
-		jsEngine.eval( ""
-			+ "for ( var i in __instance.cleanup ) {" + System.lineSeparator()
+		try {
+			jsEngine.eval( ""
+				+ "for ( var i in __instance.cleanup ) {" + System.lineSeparator()
 
-			+ "    if ( typeof __instance.cleanup[ i ] === 'function' ) {" + System.lineSeparator()
-			+ "        __instance.cleanup[ i ]()" + System.lineSeparator()
-			+ "    }" + System.lineSeparator()
-			+ "}"
-		);
+				+ "    if ( typeof __instance.cleanup[ i ] === 'function' ) {" + System.lineSeparator()
+				+ "        __instance.cleanup[ i ]()" + System.lineSeparator()
+				+ "    }" + System.lineSeparator()
+				+ "}"
+			);
+
+		} catch ( ScriptException e ) {
+			e.printStackTrace();
+		}
 	}
 
 
