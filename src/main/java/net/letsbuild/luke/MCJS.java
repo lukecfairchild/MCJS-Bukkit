@@ -15,30 +15,47 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class MCJS extends JavaPlugin {
-	
-	public static Plugin plugin;
-	public static ScriptEngine jsEngine;
-    public static final int id = 0;
-    
-	public void loadEngine() {
+
+	public static Plugin              plugin;
+
+	private static List<Runnable>      cleanUpFunctions = new ArrayList<Runnable>();
+	private static ScriptEngine        jsEngine;
+	private static ScriptEngineManager scriptManager;
+	private static ScriptEngineManager scriptManager;
+
+	@Override
+	public void onEnable () {
+
 		plugin = this;
+
 
 		/**
 		 * Initialize Javascript Engine.
 		 */
-		ScriptEngineManager scriptManager = new ScriptEngineManager();
 
-		jsEngine = scriptManager.getEngineByName( "javascript" );
+		if ( scriptManager == null ) {
+			scriptManager = new ScriptEngineManager();
+		}
+
+		if ( jsEngine == null ) {
+			jsEngine = scriptManager.getEngineByName( "javascript" );
+		}
 
 
 		/**
-		 * Figure out the current Directory.
+		 * Figure out Directories.
 		 */
 
 		String serverDir  = System.getProperty( "user.dir" );
 		String pluginsDir = Paths.get( serverDir, "plugins" ).toString();
 		String pluginDir  = Paths.get( pluginsDir, "MCJS" ).toString();
 		String jsFilePath = Paths.get( pluginDir, "lib", "global.js" ).toString();
+
+		jsEngine.put( "PATH", pluginDir );
+		jsEngine.eval( "var global     = {};" );
+		jsEngine.eval( "var __instance = {};" );
+
+		jsEngine.eval( "__instance.cleanup = [];" );
 
 
 		/**
@@ -65,15 +82,8 @@ public class MCJS extends JavaPlugin {
 
 		try {
 			String javascript = new String( data, "UTF-8" );
-
-
-			/**
-			 * Pass required variables to Javascript Engine.
-			 */
-
-			jsEngine.put( "PATH", pluginDir );
-			jsEngine.eval( "var global = {};" );
-			jsEngine.eval( javascript );
+			
+			jsEngine.eval( "( function () { \n" + javascript + "\n} ) ();" );
 			
 		} catch ( UnsupportedEncodingException e ) {
 			e.printStackTrace();
@@ -83,21 +93,24 @@ public class MCJS extends JavaPlugin {
 		}
 	}
 
-	public void disableEngine() {
-
-		if ( jsEngine != null ) {
-			jsEngine.interrupt();
-		}
-	}
 
 	@Override
-	public void onEnable() {
+	public void onDisable () {
 
-		loadEngine();
+		jsEngine.eval( ""
+			+ "for ( var i in __instance.cleanup ) {" + System.lineSeparator()
+
+			+ "    if ( typeof __instance.cleanup[ i ] === 'function' ) {" + System.lineSeparator()
+			+ "        __instance.cleanup[ i ]()" + System.lineSeparator()
+			+ "    }" + System.lineSeparator()
+			+ "}"
+		);
 	}
 
 
-	// Fired when SpigotPlugin is disabled
-	@Override
-	public void onDisable() {}
+	public void reload () {
+
+		onDisable();
+		onEnable();
+	}
 }
