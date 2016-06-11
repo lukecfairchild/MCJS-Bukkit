@@ -39,8 +39,6 @@ public class MCJS extends JavaPlugin {
 			jsFilePath = Paths.get( getPluginDir(), "lib", "global.js" ).toString();
 		}
 
-		String javascript;
-
 		File file   = new File( jsFilePath );
 		byte[] data = new byte[ ( int ) file.length() ];
 		
@@ -58,13 +56,13 @@ public class MCJS extends JavaPlugin {
 		}
 
 		try {
-			javascript = String( data, "UTF-8" );
+			return String( data, "UTF-8" );
 
 		} catch ( UnsupportedEncodingException e ) {
 			e.printStackTrace();
-		}
 
-		return javascript;
+			return "";
+		}
 	}
 
 
