@@ -36,7 +36,7 @@ public class MCJS extends JavaPlugin {
 	private String getJSFile () {
 
 		if ( jsFilePath == null ) {
-			jsFilePath = Paths.get( getPluginDir(), "lib", "global.js" ).toString();
+			jsFilePath = Paths.get( getPluginDir(), "lib", "init.js" ).toString();
 		}
 
 		String javascript = "";
