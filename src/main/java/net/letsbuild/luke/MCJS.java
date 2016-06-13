@@ -16,7 +16,7 @@ import javax.script.ScriptException;
 
 public class MCJS extends JavaPlugin {
 
-	public static Plugin              plugin;
+	public static Plugin plugin;
 
 	private static ScriptEngine        jsEngine;
 	private static ScriptEngineManager scriptManager;
@@ -43,7 +43,7 @@ public class MCJS extends JavaPlugin {
 
 		File file   = new File( jsFilePath );
 		byte[] data = new byte[ ( int ) file.length() ];
-		
+
 		try {
 			FileInputStream fileStream = new FileInputStream( file );
 
@@ -93,7 +93,7 @@ public class MCJS extends JavaPlugin {
 
 			jsEngine.eval( "__instance.cleanup = [];" );
 			jsEngine.eval( "( function () { \n" + getJSFile() + "\n} ) ();" );
-			
+
 		} catch ( ScriptException e ) {
 			e.printStackTrace();
 		}
