@@ -91,7 +91,6 @@ public class MCJS extends JavaPlugin {
 			jsEngine.eval( "var global     = {};" );
 			jsEngine.eval( "var __instance = {};" );
 			jsEngine.eval( "__instance.scope = function ( code ) { return eval( code ); }" );
-
 			jsEngine.eval( "__instance.cleanup = [];" );
 			jsEngine.eval( "( function () { \n" + getJSFile() + "\n} ) ();" );
 
