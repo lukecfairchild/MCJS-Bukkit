@@ -110,6 +110,8 @@ public class MCJS extends JavaPlugin {
 				+ "    if ( typeof __instance.cleanup[ i ] === 'function' ) {" + System.lineSeparator()
 				+ "        __instance.cleanup[ i ]()" + System.lineSeparator()
 				+ "    }" + System.lineSeparator()
+				+ "" + System.lineSeparator()
+				+ "    __instance.cleanup = [];" + System.lineSeparator()
 				+ "}"
 			);
 
